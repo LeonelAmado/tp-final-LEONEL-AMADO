@@ -1,3 +1,17 @@
+# Buenas Profes!!!
+
+# Comentario: las anotaciones que dejé en cada archivo, son para ayudarme a mi a entender como funciona cada cosa.
+
+# Los comentarios los hizo Copilot, puede haber errores.
+
+# El README, los CURL y los collection los hizo copilot tambien.
+
+# El trabajo lo hice pasando a mano lo hecho en clase para poder entender tag por tag, luego lo adapté a Patitas Felices.
+
+# Elegí hacerlo en Mongo DB ya que para SQL debo pedir prestada una PC y me es incómodo.
+
+# Espero que todo esté Ok. Saludos!
+
 # 🏥 Sistema de Gestión Veterinaria - API REST
 
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
