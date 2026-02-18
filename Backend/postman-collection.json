@@ -1,0 +1,339 @@
+{
+  "info": {
+    "name": "API Veterinaria",
+    "description": "Colección completa de endpoints para la API de gestión veterinaria",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12345"
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Registro de Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"leonel\",\n  \"email\": \"leonel@example.com\",\n  \"password\": \"Secure123!\",\n  \"nombre\": \"Leonel\",\n  \"apellido\": \"Amado\",\n  \"direccion\": \"Calle Principal 123\",\n  \"telefono\": \"555-1234\",\n  \"mascotas\": [\"Firulais\", \"Michi\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra un nuevo usuario en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Login de Usuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.environment.set(\"token\", jsonData.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"leonel@example.com\",\n  \"password\": \"Secure123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Autentica un usuario y devuelve un token JWT"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints de autenticación y autorización"
+    },
+    {
+      "name": "Veterinarias",
+      "item": [
+        {
+          "name": "Obtener Todas las Veterinarias",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/veterinaria/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "veterinaria", ""]
+            },
+            "description": "Obtiene lista completa de veterinarias (requiere autenticación)"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Veterinaria por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/veterinaria/{{veterinariaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "veterinaria", "{{veterinariaId}}"]
+            },
+            "description": "Obtiene una veterinaria específica por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Veterinaria (ADMIN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.environment.set(\"veterinariaId\", jsonData.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Veterinaria Central\",\n  \"direccion\": \"Av. Principal 500\",\n  \"telefono\": \"555-0001\",\n  \"email\": \"central@vet.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/veterinaria/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "veterinaria", ""]
+            },
+            "description": "Crea una nueva veterinaria (requiere rol admin)"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Veterinaria (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"telefono\": \"555-8888\",\n  \"direccion\": \"Dirección Actualizada\",\n  \"email\": \"actualizado@vet.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/veterinaria/{{veterinariaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "veterinaria", "{{veterinariaId}}"]
+            },
+            "description": "Actualiza una veterinaria existente (requiere rol admin)"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Veterinaria (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/veterinaria/{{veterinariaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "veterinaria", "{{veterinariaId}}"]
+            },
+            "description": "Elimina una veterinaria (requiere rol admin)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para gestión de veterinarias"
+    },
+    {
+      "name": "Historiales Clínicos",
+      "item": [
+        {
+          "name": "Obtener Todos los Historiales",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/historiaClinica/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "historiaClinica", ""]
+            },
+            "description": "Obtiene lista completa de historiales clínicos"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Historial por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/historiaClinica/{{historialId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "historiaClinica", "{{historialId}}"]
+            },
+            "description": "Obtiene un historial clínico específico por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Historial Clínico (ADMIN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.environment.set(\"historialId\", jsonData._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paciente\": \"Firulais\",\n  \"dueñoId\": 123,\n  \"edad\": 4,\n  \"raza\": \"Labrador\",\n  \"peso\": 22.5,\n  \"motivoConsulta\": \"Control anual\",\n  \"diagnostico\": \"Saludable\",\n  \"tratamiento\": \"Ninguno\",\n  \"fecha\": \"2024-01-15T10:00:00.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/historiaClinica/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "historiaClinica", ""]
+            },
+            "description": "Crea un nuevo historial clínico (requiere rol admin)"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Historial Clínico (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"peso\": 23.0,\n  \"tratamiento\": \"Cambio de pauta terapéutica\",\n  \"diagnostico\": \"Hipertensión leve\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/historiaClinica/{{historialId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "historiaClinica", "{{historialId}}"]
+            },
+            "description": "Actualiza un historial clínico existente (requiere rol admin)"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Historial Clínico (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/historiaClinica/{{historialId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "historiaClinica", "{{historialId}}"]
+            },
+            "description": "Elimina un historial clínico (requiere rol admin)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para gestión de historiales clínicos"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "veterinariaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "historialId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
