@@ -3,7 +3,7 @@ import * as veterinariasController from "../controllers/veterinarias.controller"
 import {
   createVeterinariaValidator,
   updateVeterinariaValidator,
-} from "../validators/category.validator";
+} from "../validators/veterinaria.validator";
 import { authenticate, authorize } from "../middlewares/auth.middleware";
 import validateDto from "../middlewares/dto.middleware";
 
@@ -45,7 +45,7 @@ router.get("/", authenticate, veterinariasController.getAll);
  * Respuesta exitosa (200):
  * { id: "...", name: "Vet Center", direccion: "...", telefono: "...", email: "..." }
  */
-router.get("/:id", veterinariasController.getById);
+router.get("/:id", authenticate, veterinariasController.getById);
 
 /**
  * RUTA: POST /api/veterinaria/

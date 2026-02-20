@@ -1,3 +1,4 @@
+import { IMascotas } from "../models/mascotas.model";
 /**
  * INTERFAZ: JwtPayload
  *
@@ -16,6 +17,7 @@ export interface JwtPayload {
   role: UserRole; // Rol del usuario (admin o user)
   nombre: string; // Nombre real del usuario
   apellido: string; // Apellido del usuario
+  mascotas?: IMascotas;
 }
 
 /**

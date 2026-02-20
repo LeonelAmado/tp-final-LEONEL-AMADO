@@ -6,7 +6,8 @@ import path from "path";
 // Importar rutas específicas de cada módulo
 import authRoutes from "./routes/auth.routes";
 import categoriesRoutes from "./routes/veterinarias.routes";
-import productsRoutes from "./routes/hClinicas.routes";
+import hClinicasRoutes from "./routes/hClinicas.routes";
+import mascotasRoutes from "./routes/mascotas.routes";
 
 // Importar middlewares de autenticación y control de acceso
 import { authenticate, authorize } from "./middlewares/auth.middleware";
@@ -72,7 +73,10 @@ app.get("/api/saludo", (req: Request, res: Response) => {
 app.use("/api/veterinaria", categoriesRoutes);
 
 // Rutas para gestionar historiales clínicos
-app.use("/api/historiaClinica", productsRoutes);
+app.use("/api/historiaClinica", hClinicasRoutes);
+
+// Rutas para gestionar mascotas
+app.use("/api/mascotas", mascotasRoutes);
 
 // Endpoint de prueba que genera un error personalizado
 app.get("/api/test-error", (req, res, next) => {
