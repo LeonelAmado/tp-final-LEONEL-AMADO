@@ -1,0 +1,290 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "API Veterinaria",
+  "dateExported": "2026-02-04",
+  "version": "1.1",
+  "folders": [
+    {
+      "id": "auth-folder",
+      "name": "Autenticación",
+      "containerId": "",
+      "created": "2026-02-04T10:00:00.000Z",
+      "sortNum": 10000
+    },
+    {
+      "id": "veterinarias-folder",
+      "name": "Veterinarias",
+      "containerId": "",
+      "created": "2026-02-04T10:00:00.000Z",
+      "sortNum": 20000
+    },
+    {
+      "id": "historiales-folder",
+      "name": "Historiales Clínicos",
+      "containerId": "",
+      "created": "2026-02-04T10:00:00.000Z",
+      "sortNum": 30000
+    }
+  ],
+  "requests": [
+    {
+      "id": "register-request",
+      "name": "Registro de Usuario",
+      "url": "http://localhost:3000/auth/register",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"leonel\",\n  \"email\": \"leonel@example.com\",\n  \"password\": \"Secure123!\",\n  \"nombre\": \"Leonel\",\n  \"apellido\": \"Amado\",\n  \"direccion\": \"Calle Principal 123\",\n  \"telefono\": \"555-1234\",\n  \"mascotas\": [\"Firulais\", \"Michi\"]\n}",
+        "form": []
+      },
+      "tests": [],
+      "containerId": "auth-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "login-request",
+      "name": "Login de Usuario",
+      "url": "http://localhost:3000/auth/login",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"leonel@example.com\",\n  \"password\": \"Secure123!\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "containerId": "auth-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "get-all-veterinarias",
+      "name": "Obtener Todas las Veterinarias",
+      "url": "http://localhost:3000/api/veterinaria/",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "containerId": "veterinarias-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "get-veterinaria-by-id",
+      "name": "Obtener Veterinaria por ID",
+      "url": "http://localhost:3000/api/veterinaria/{{veterinariaId}}",
+      "method": "GET",
+      "sortNum": 40000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "tests": [],
+      "containerId": "veterinarias-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "create-veterinaria",
+      "name": "Crear Veterinaria (ADMIN)",
+      "url": "http://localhost:3000/api/veterinaria/",
+      "method": "POST",
+      "sortNum": 50000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Veterinaria Central\",\n  \"direccion\": \"Av. Principal 500\",\n  \"telefono\": \"555-0001\",\n  \"email\": \"central@vet.com\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "containerId": "veterinarias-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "update-veterinaria",
+      "name": "Actualizar Veterinaria (ADMIN)",
+      "url": "http://localhost:3000/api/veterinaria/{{veterinariaId}}",
+      "method": "PUT",
+      "sortNum": 60000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"telefono\": \"555-8888\",\n  \"direccion\": \"Dirección Actualizada\",\n  \"email\": \"actualizado@vet.com\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "containerId": "veterinarias-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "delete-veterinaria",
+      "name": "Eliminar Veterinaria (ADMIN)",
+      "url": "http://localhost:3000/api/veterinaria/{{veterinariaId}}",
+      "method": "DELETE",
+      "sortNum": 70000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "containerId": "veterinarias-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "get-all-historiales",
+      "name": "Obtener Todos los Historiales",
+      "url": "http://localhost:3000/api/historiaClinica/",
+      "method": "GET",
+      "sortNum": 80000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "tests": [],
+      "containerId": "historiales-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "get-historial-by-id",
+      "name": "Obtener Historial por ID",
+      "url": "http://localhost:3000/api/historiaClinica/{{historialId}}",
+      "method": "GET",
+      "sortNum": 90000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "tests": [],
+      "containerId": "historiales-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "create-historial",
+      "name": "Crear Historial Clínico (ADMIN)",
+      "url": "http://localhost:3000/api/historiaClinica/",
+      "method": "POST",
+      "sortNum": 100000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"paciente\": \"Firulais\",\n  \"dueñoId\": 123,\n  \"edad\": 4,\n  \"raza\": \"Labrador\",\n  \"peso\": 22.5,\n  \"motivoConsulta\": \"Control anual\",\n  \"diagnostico\": \"Saludable\",\n  \"tratamiento\": \"Ninguno\",\n  \"fecha\": \"2024-01-15T10:00:00.000Z\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "containerId": "historiales-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "update-historial",
+      "name": "Actualizar Historial Clínico (ADMIN)",
+      "url": "http://localhost:3000/api/historiaClinica/{{historialId}}",
+      "method": "PUT",
+      "sortNum": 110000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"peso\": 23.0,\n  \"tratamiento\": \"Cambio de pauta terapéutica\",\n  \"diagnostico\": \"Hipertensión leve\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "containerId": "historiales-folder",
+      "colId": "veterinaria-collection"
+    },
+    {
+      "id": "delete-historial",
+      "name": "Eliminar Historial Clínico (ADMIN)",
+      "url": "http://localhost:3000/api/historiaClinica/{{historialId}}",
+      "method": "DELETE",
+      "sortNum": 120000,
+      "created": "2026-02-04T10:00:00.000Z",
+      "modified": "2026-02-04T10:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "containerId": "historiales-folder",
+      "colId": "veterinaria-collection"
+    }
+  ]
+}
