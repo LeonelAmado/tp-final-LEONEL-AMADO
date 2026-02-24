@@ -10,8 +10,7 @@ import { body, ValidationChain } from "express-validator";
  */
 const name: ValidationChain[] = [
   body("name")
-    .notEmpty() // No puede estar vacío
-    .withMessage("El nombre es obligatorio")
+    .optional()
     .isString()
     .withMessage("El nombre debe ser una cadena de texto")
     .isLength({ max: 50, min: 3 })
@@ -26,13 +25,13 @@ const name: ValidationChain[] = [
  * - Si se incluye, debe ser una cadena de texto
  * - Máximo 30 caracteres
  */
-const dueñoId: ValidationChain[] = [
-  body("dueñoId")
-    .isNumeric()
-    .withMessage("El dueñoId debe ser una cadena de números")
-    .isLength({ max: 30 })
-    .withMessage("El dueñoId no puede exceder los 30 caracteres"),
-];
+// const duenoId: ValidationChain[] = [
+//   body("duenoId")
+//     .isNumeric()
+//     .withMessage("El duenoId debe ser una cadena de números")
+//     .isInt({ max: 50 })
+//     .withMessage("El duenoId no puede exceder los 30 caracteres"),
+// ];
 
 /**
  * VALIDADOR: email
@@ -83,7 +82,7 @@ const raza: ValidationChain[] = [
 const mascotasValidation: ValidationChain[] = [
   ...raza,
   ...name,
-  ...dueñoId,
+  // ...duenoId,
   ...edad,
 ];
 

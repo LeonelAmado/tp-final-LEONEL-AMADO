@@ -13,7 +13,7 @@ import { IHClinica, HClinica } from "../models/hClinicas.model";
  * Uso:
  * const newHClinica = await createHClinica({
  *   paciente: "Firulais",
- *   dueñoId: 123,
+ *   duenoId: 123,
  *   edad: 4,
  *   raza: "Labrador"
  * });

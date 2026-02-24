@@ -1,7 +1,25 @@
 // Importar modelo de producto
 // Importar modelo de historial clínico
-import { IMascotas, Mascotas } from "../models/mascotas.model";
+import { IMascotas, Mascotas, mascotasSchema } from "../models/mascotas.model";
+import {
+  CreateMascotasDTO,
+  MascotasResponseDTO,
+  UpdateMascotasDTO,
+} from "../types/mascotas";
 
+const mapToResponseDTO = (mascota: IMascotas): MascotasResponseDTO => {
+  return {
+    id: mascota._id.toString(),
+    name: mascota.name,
+    duenoId: mascota.duenoId,
+    edad: mascota.edad,
+    especie: mascota.especie,
+    raza: mascota.raza,
+    fecha: mascota.fecha,
+    createdAt: mascota.createdAt,
+    updatedAt: mascota.updatedAt,
+  };
+};
 /**
  * SERVICIO: createHClinica
  *
@@ -13,16 +31,22 @@ import { IMascotas, Mascotas } from "../models/mascotas.model";
  * Uso:
  * const newHClinica = await createHClinica({
  *   paciente: "Firulais",
- *   dueñoId: 123,
+ *   duenoId: 123,
  *   edad: 4,
  *   raza: "Labrador"
  * });
  */
-export const createMascotas = async (data: IMascotas) => {
-  const mascotas = new Mascotas(data);
-  return await mascotas.save();
+// export const createMascotas = async (data: IMascotas) => {
+//   const mascotas = new Mascotas(data);
+//   return await mascotas.save();
+// };
+export const createMascotas = async (
+  data: CreateMascotasDTO,
+): Promise<MascotasResponseDTO> => {
+  const newMascota = new Mascotas(data);
+  const savedMascota = await newMascota.save();
+  return mapToResponseDTO(savedMascota);
 };
-
 /**
  * SERVICIO: getAllHClinicas
  *
@@ -64,13 +88,23 @@ export const getMascotasById = async (id: string) => {
  * Uso:
  * const updated = await updateHClinica("507f...", { peso: 24 });
  */
-export const updateMascotas = async (id: string, data: Partial<IMascotas>) => {
-  return await Mascotas.findByIdAndUpdate(id, data, {
+// export const updateMascotas = async (id: string, data: Partial<IMascotas>) => {
+//   return await Mascotas.findByIdAndUpdate(id, data, {
+//     new: true,
+//     runValidators: true,
+//   });
+// };
+export const updateMascotas = async (
+  id: string,
+  data: UpdateMascotasDTO,
+): Promise<MascotasResponseDTO | null> => {
+  const mascotas = await Mascotas.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
   });
-};
 
+  return mascotas ? mapToResponseDTO(mascotas) : null;
+};
 /**
  * SERVICIO: deleteHClinica
  *

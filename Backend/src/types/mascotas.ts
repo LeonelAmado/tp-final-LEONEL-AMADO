@@ -13,8 +13,9 @@
 
 export interface CreateMascotasDTO {
   name: string;
-  dueñoId: number;
+  duenoId: string;
   edad: number;
+  especie: string;
   raza: string;
   fecha: Date;
 }
@@ -28,7 +29,7 @@ export interface CreateMascotasDTO {
  *
  * Ejemplo: { telefono: "555-1234" } actualiza solo el teléfono
  */
-export interface UpdateHClinicaDTO extends Partial<CreateMascotasDTO> {}
+export interface UpdateMascotasDTO extends Partial<CreateMascotasDTO> {}
 
 /**
  * INTERFAZ: VeterinariaResponseDTO
@@ -38,10 +39,11 @@ export interface UpdateHClinicaDTO extends Partial<CreateMascotasDTO> {}
  * Esto es lo que ve el cliente en las respuestas GET/POST/PUT
  */
 export interface MascotasResponseDTO {
-  id: number;
+  id: String;
   name: string;
-  dueñoId: number;
+  duenoId: string;
   edad: number;
+  especie: string;
   raza: string;
   fecha: Date;
   createdAt: Date;
