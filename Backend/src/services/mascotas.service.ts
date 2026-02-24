@@ -8,16 +8,28 @@ import {
 } from "../types/mascotas";
 
 const mapToResponseDTO = (mascota: IMascotas): MascotasResponseDTO => {
+  const {
+    _id,
+    name,
+    duenoId,
+    edad,
+    especie,
+    raza,
+    fecha,
+    createdAt,
+    updatedAt,
+  } = mascota;
+
   return {
-    id: mascota._id.toString(),
-    name: mascota.name,
-    duenoId: mascota.duenoId,
-    edad: mascota.edad,
-    especie: mascota.especie,
-    raza: mascota.raza,
-    fecha: mascota.fecha,
-    createdAt: mascota.createdAt,
-    updatedAt: mascota.updatedAt,
+    id: _id.toString(),
+    name,
+    duenoId: duenoId.toString(),
+    edad,
+    especie,
+    raza,
+    fecha,
+    createdAt,
+    updatedAt,
   };
 };
 /**
