@@ -22,6 +22,7 @@ export const mascotasSchema = new Schema<IMascotas>(
     // Campo ID del dueño
     duenoId: {
       type: Types.ObjectId,
+      ref: "User",
       required: true, // Obligatorio
     },
     // Campo edad del paciente

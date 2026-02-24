@@ -70,7 +70,7 @@ export const createMascotas = async (
  * const historiales = await getAllHClinicas();
  */
 export const getAllMascotas = async () => {
-  return await Mascotas.find();
+  return await Mascotas.find().populate("duenoId", "nombre apellido username");
 };
 
 /**
@@ -85,7 +85,10 @@ export const getAllMascotas = async () => {
  * const hClinica = await getHClinicaById("507f1f77bcf86cd799439011");
  */
 export const getMascotasById = async (id: string) => {
-  return await Mascotas.findById(id);
+  return await Mascotas.findById(id).populate(
+    "duenoId",
+    "nombre apellido username",
+  );
 };
 
 /**
