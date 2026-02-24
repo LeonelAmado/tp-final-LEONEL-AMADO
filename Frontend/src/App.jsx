@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Usuarios from "./components/Usuarios";
 import Veterinarias from "./pages/Veterinarias";
+import Mascotas from "./pages/Mascotas";
 
 
 function AppLayout() {
@@ -22,6 +23,7 @@ function AppLayout() {
         <Route path="/register" element={<Register />} />
         <Route path="/hclinicas" element={<PrivateRoute><HClinicas /></PrivateRoute>} />
         <Route path="/veterinarias" element={<PrivateRoute><Veterinarias /></PrivateRoute>} />
+                <Route path="/mascotas" element={<PrivateRoute><Mascotas /></PrivateRoute>} />
      <Route
           path="/usuarios"
           element={
