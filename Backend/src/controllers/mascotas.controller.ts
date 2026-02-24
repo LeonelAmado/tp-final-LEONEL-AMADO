@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as mascotasService from "../services/mascotas.service";
 import { IMascotas } from "../models/mascotas.model";
+import { CreateMascotasDTO, UpdateMascotasDTO } from "../types/mascotas";
 
 /**
  * CONTROLADOR: createHClinica
@@ -29,7 +30,7 @@ import { IMascotas } from "../models/mascotas.model";
  */
 export const createMascotas = async (req: Request, res: Response) => {
   try {
-    const mascotasData: IMascotas = req.body;
+    const mascotasData: CreateMascotasDTO = req.body;
 
     // Llamar servicio para crear historial clínico
     const mascotas = await mascotasService.createMascotas(mascotasData);
@@ -128,7 +129,7 @@ export const updateMascotas = async (req: Request, res: Response) => {
 
   try {
     // Extraer datos a actualizar del body
-    const mascotasData: Partial<IMascotas> = req.body;
+    const mascotasData: Partial<UpdateMascotasDTO> = req.body;
 
     // Llamar servicio para actualizar historial clínico
     const mascotas = await mascotasService.updateMascotas(id, mascotasData);
