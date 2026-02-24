@@ -42,6 +42,7 @@ const name: ValidationChain[] = [
  */
 const edad: ValidationChain[] = [
   body("edad")
+    .optional()
     .isNumeric()
     .withMessage("Edad debe ser una cadena de números")
     .isLength({ max: 30 })
@@ -58,8 +59,8 @@ const edad: ValidationChain[] = [
  */
 const raza: ValidationChain[] = [
   body("raza")
-    .notEmpty() // No puede estar vacío
-    .withMessage("La raza es obligatorio")
+    .optional()
+
     .isString()
     .withMessage("La raza debe ser una cadena de texto")
     .isLength({ max: 50, min: 3 })
