@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, model, Types } from "mongoose";
 
 /**
  * INTERFAZ: IProduct
@@ -16,14 +16,12 @@ import mongoose, { Schema, Document } from "mongoose";
  * - updatedAt: Timestamp automático de actualización
  */
 export interface IHClinica extends Document {
-  paciente: string;
-  dueñoId: number;
-  edad: number;
-  raza: string;
-  peso: number;
+  mascotaId: Types.ObjectId;
+  peso: String;
   motivoConsulta: string;
   diagnostico: string;
   tratamiento: string;
+  notas: string;
   fecha: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -38,31 +36,15 @@ export interface IHClinica extends Document {
 export const hClinicaSchema = new Schema<IHClinica>(
   {
     // Campo nombre del paciente
-    paciente: {
-      type: String,
-      required: true, // Obligatorio
-      trim: true, // Elimina espacios en blanco
+    mascotaId: {
+      type: Schema.Types.ObjectId,
+      ref: "Mascotas",
+      required: true,
     },
-    // Campo ID del dueño
-    dueñoId: {
-      type: Number,
-      required: true, // Obligatorio
-    },
-    // Campo edad del paciente
-    edad: {
-      type: Number,
-      required: true, // Obligatorio
-      min: 0, // No puede ser negativo
-    },
-    // Campo raza del paciente
-    raza: {
-      type: String,
-      required: true, // Obligatorio
-      trim: true,
-    },
+
     // Campo peso del paciente
     peso: {
-      type: Number,
+      type: String,
       required: true, // Obligatorio
       min: 0, // No puede ser negativo
     },
@@ -84,6 +66,10 @@ export const hClinicaSchema = new Schema<IHClinica>(
       required: true, // Obligatorio
       trim: true,
     },
+    notas: {
+      type: String,
+      trim: true,
+    },
     // Campo fecha de la consulta
     fecha: {
       type: Date,
@@ -101,10 +87,6 @@ export const hClinicaSchema = new Schema<IHClinica>(
  * Trade-off: más rápido para leer, más lento para escribir
  */
 // Índice en nombre: acelera búsquedas por nombre
-hClinicaSchema.index({ paciente: 1 });
-
-// Índice en dueñoId: acelera búsquedas por dueño
-hClinicaSchema.index({ dueñoId: 1 });
 
 // Índice en fecha: acelera búsquedas por rango de fechas
 hClinicaSchema.index({ fecha: 1 });

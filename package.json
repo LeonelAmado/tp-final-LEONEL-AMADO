@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "headers": "^0.9.6",
+    "never": "^1.1.0",
+    "path": "^0.12.7"
+  }
+}

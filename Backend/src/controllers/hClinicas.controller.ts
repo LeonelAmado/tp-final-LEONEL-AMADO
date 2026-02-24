@@ -12,7 +12,7 @@ import { IHClinica } from "../models/hClinicas.model";
  * Body esperado:
  * {
  *   "paciente": "Firulais",
- *   "dueñoId": 123,
+ *   "duenoId": 123,
  *   "edad": 4,
  *   "raza": "Labrador",
  *   "peso": 22.5,
@@ -37,9 +37,7 @@ export const createHClinica = async (req: Request, res: Response) => {
     // Retornar 201 Created con el historial creado
     return res.status(201).json(hClinica);
   } catch (error: any) {
-    return res
-      .status(500)
-      .json({ error: "Error al crear el historial clínico" });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -52,8 +50,8 @@ export const createHClinica = async (req: Request, res: Response) => {
  *
  * Respuesta exitosa (200):
  * [
- *   { _id: "...", paciente: "...", dueñoId: 123, edad: 4, raza: "..." },
- *   { _id: "...", paciente: "...", dueñoId: 456, edad: 2, raza: "..." }
+ *   { _id: "...", paciente: "...","duenoId: 123, edad: 4, raza: "..." },
+ *   { _id: "...", paciente: "...","duenoId: 456, edad: 2, raza: "..." }
  * ]
  */
 export const getAllHClinicas = async (req: Request, res: Response) => {

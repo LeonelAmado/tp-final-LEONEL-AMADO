@@ -29,6 +29,34 @@ const PORT = process.env.PORT || 3000;
 // Middleware para parsear JSON en las solicitudes
 app.use(express.json());
 
+const allowedOrigins = (
+  process.env.CORS_ORIGINS || "http://localhost:5173,http://localhost:4173"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use((req, res, next) => {
+  const requestOrigin = req.headers.origin;
+
+  if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
+    res.header("Access-Control-Allow-Origin", requestOrigin);
+  }
+
+  res.header("Vary", "Origin");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+  );
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
+
 // Servir archivos estáticos desde la carpeta 'public'
 app.use(express.static(path.join(__dirname, "..", "public")));
 

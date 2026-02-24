@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as mascotasService from "../services/mascotas.service";
 import { IMascotas } from "../models/mascotas.model";
+import { CreateMascotasDTO, UpdateMascotasDTO } from "../types/mascotas";
 
 /**
  * CONTROLADOR: createHClinica
@@ -12,7 +13,7 @@ import { IMascotas } from "../models/mascotas.model";
  * Body esperado:
  * {
  *   "paciente": "Firulais",
- *   "dueñoId": 123,
+ *   "duenoId": 123,
  *   "edad": 4,
  *   "raza": "Labrador",
  *   "peso": 22.5,
@@ -29,7 +30,7 @@ import { IMascotas } from "../models/mascotas.model";
  */
 export const createMascotas = async (req: Request, res: Response) => {
   try {
-    const mascotasData: IMascotas = req.body;
+    const mascotasData: CreateMascotasDTO = req.body;
 
     // Llamar servicio para crear historial clínico
     const mascotas = await mascotasService.createMascotas(mascotasData);
@@ -37,7 +38,8 @@ export const createMascotas = async (req: Request, res: Response) => {
     // Retornar 201 Created con el historial creado
     return res.status(201).json(mascotas);
   } catch (error: any) {
-    return res.status(500).json({ error: "Error al crear mascota" });
+    console.error(error); // 👈 importante
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -50,8 +52,8 @@ export const createMascotas = async (req: Request, res: Response) => {
  *
  * Respuesta exitosa (200):
  * [
- *   { _id: "...", paciente: "...", dueñoId: 123, edad: 4, raza: "..." },
- *   { _id: "...", paciente: "...", dueñoId: 456, edad: 2, raza: "..." }
+ *   { _id: "...", paciente: "...", duenoId: 123, edad: 4, raza: "..." },
+ *   { _id: "...", paciente: "...", duenoId: 456, edad: 2, raza: "..." }
  * ]
  */
 export const getAllMascotas = async (req: Request, res: Response) => {
@@ -127,7 +129,7 @@ export const updateMascotas = async (req: Request, res: Response) => {
 
   try {
     // Extraer datos a actualizar del body
-    const mascotasData: Partial<IMascotas> = req.body;
+    const mascotasData: Partial<UpdateMascotasDTO> = req.body;
 
     // Llamar servicio para actualizar historial clínico
     const mascotas = await mascotasService.updateMascotas(id, mascotasData);

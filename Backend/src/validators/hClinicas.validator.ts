@@ -1,88 +1,41 @@
 import { body, ValidationChain } from "express-validator";
 
-/**
- * VALIDADOR: paciente
- *
- * Validaciones para el campo dirección
- * - Opcional (puede no incluirse en la solicitud)
- * - Si se incluye, debe ser una cadena de texto
- * - Máximo 200 caracteres
- */
-const paciente: ValidationChain[] = [
-  body("paciente")
-    .isString()
-    .withMessage("El nombre debe ser una cadena de texto")
-    .isLength({ max: 50 })
-    .withMessage("El nombre no puede exceder los 50 caracteres"),
-];
-
-/**
- * VALIDADOR: telefono
- *
- * Validaciones para el campo teléfono
- * - Opcional (puede no incluirse en la solicitud)
- * - Si se incluye, debe ser una cadena de texto
- * - Máximo 30 caracteres
- */
-const dueñoId: ValidationChain[] = [
-  body("dueñoId")
-    .isNumeric()
-    .withMessage("El dueñoId debe ser una cadena de números")
-    .isLength({ max: 30 })
-    .withMessage("El dueñoId no puede exceder los 30 caracteres"),
-];
-
-/**
- * VALIDADOR: email
- *
- * Validaciones para el campo email
- * - Opcional (puede no incluirse en la solicitud)
- * - Si se incluye, debe ser un email válido
- */
-const edad: ValidationChain[] = [
-  body("edad")
-    .isNumeric()
-    .withMessage("Edad debe ser una cadena de números")
-    .isLength({ max: 30 })
-    .withMessage("Edad no puede exceder los 30 caracteres"),
-];
-
-/**
- * VALIDADOR: name
- *
- * Validaciones para el campo nombre de veterinaria
- * - Obligatorio
- * - Debe ser una cadena de texto
- * - Entre 3 y 50 caracteres
- */
-const raza: ValidationChain[] = [
-  body("raza")
-    .notEmpty() // No puede estar vacío
-    .withMessage("La raza es obligatorio")
-    .isString()
-    .withMessage("La raza debe ser una cadena de texto")
-    .isLength({ max: 50, min: 3 })
-    .withMessage("La raza debe tener entre 3 y 50 caracteres"),
-];
-
-/**
- * VALIDADOR: veterinariaValidator
- *
- * Combina todas las validaciones necesarias para crear una veterinaria
- * - Nombre (obligatorio)
- * - Dirección (opcional)
- * - Teléfono (opcional)
- * - Email (opcional)
- *
- * Uso en rutas:
- * router.post("/", veterinariaValidator, validateDto, controller)
- * router.put("/:id", veterinariaValidator, validateDto, controller)
- */
 const hClinicasValidation: ValidationChain[] = [
-  ...raza,
-  ...paciente,
-  ...dueñoId,
-  ...edad,
+  body("mascotaId")
+    .optional()
+    .isMongoId()
+    .withMessage("El mascotaId debe ser un ID válido"),
+
+  body("peso")
+    .optional()
+    .isNumeric()
+    .withMessage("El peso debe ser un número")
+    .custom((value) => value >= 0)
+    .withMessage("El peso no puede ser negativo"),
+
+  body("motivoConsulta")
+    .optional()
+    .isString()
+    .withMessage("El motivoConsulta debe ser texto")
+    .isLength({ min: 3, max: 100 })
+    .withMessage("El motivoConsulta debe tener entre 3 y 100 caracteres"),
+
+  body("diagnostico")
+    .optional()
+    .isString()
+    .withMessage("El diagnóstico debe ser texto"),
+
+  body("tratamiento")
+    .optional()
+    .isString()
+    .withMessage("El tratamiento debe ser texto"),
+
+  body("notas").optional().isString().withMessage("Las notas deben ser texto"),
+
+  body("fecha")
+    .optional()
+    .isISO8601()
+    .withMessage("La fecha debe tener formato válido"),
 ];
 
 /**

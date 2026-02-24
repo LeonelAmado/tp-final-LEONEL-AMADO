@@ -1,9 +1,10 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, model, Types, Document } from "mongoose";
 
 export interface IMascotas extends Document {
   name: string;
-  dueñoId: number;
+  duenoId: Types.ObjectId;
   edad: number;
+  especie: string;
   raza: string;
   fecha: Date;
   createdAt: Date;
@@ -19,8 +20,9 @@ export const mascotasSchema = new Schema<IMascotas>(
       trim: true, // Elimina espacios en blanco
     },
     // Campo ID del dueño
-    dueñoId: {
-      type: Number,
+    duenoId: {
+      type: Types.ObjectId,
+      ref: "User",
       required: true, // Obligatorio
     },
     // Campo edad del paciente
@@ -31,6 +33,11 @@ export const mascotasSchema = new Schema<IMascotas>(
     },
     // Campo raza del paciente
     raza: {
+      type: String,
+      required: true, // Obligatorio
+      trim: true,
+    },
+    especie: {
       type: String,
       required: true, // Obligatorio
       trim: true,
@@ -48,8 +55,8 @@ export const mascotasSchema = new Schema<IMascotas>(
 // Índice en nombre: acelera búsquedas por nombre
 mascotasSchema.index({ name: 1 });
 
-// Índice en dueñoId: acelera búsquedas por dueño
-mascotasSchema.index({ dueñoId: 1 });
+// Índice en duenoId: acelera búsquedas por dueño
+mascotasSchema.index({ duenoId: 1 });
 
 // Índice en fecha: acelera búsquedas por rango de fechas
 mascotasSchema.index({ fecha: 1 });

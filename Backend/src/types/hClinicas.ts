@@ -12,13 +12,11 @@
  */
 
 export interface CreateHClinicasDTO {
-  paciente: string;
-  dueñoId: number;
-  edad: number;
-  raza: string;
-  peso?: number;
+  mascotaId: number;
+  peso?: string;
   motivoConsulta: string;
   diagnostico?: string;
+  notas?: string;
   tratamiento?: string;
   fecha: Date;
 }
@@ -42,15 +40,13 @@ export interface UpdateHClinicaDTO extends Partial<CreateHClinicasDTO> {}
  * Esto es lo que ve el cliente en las respuestas GET/POST/PUT
  */
 export interface HClinicaResponseDTO {
-  id: number;
-  paciente: string;
-  dueñoId: number;
-  edad: number;
-  raza: string;
-  peso?: number;
+  id: String;
+  mascotaId: number;
+  peso?: string;
   motivoConsulta: string;
   diagnostico?: string;
   tratamiento?: string;
+  notas?: string;
   fecha: Date;
   createdAt: Date;
   updatedAt: Date;

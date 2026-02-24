@@ -28,8 +28,8 @@ const router: Router = Router();
  *
  * Respuesta exitosa (200):
  * [
- *   { _id: "...", paciente: "...", dueñoId: 123, edad: 4, raza: "..." },
- *   { _id: "...", paciente: "...", dueñoId: 456, edad: 2, raza: "..." }
+ *   { _id: "...", paciente: "...", duenoId: 123, edad: 4, raza: "..." },
+ *   { _id: "...", paciente: "...", duenoId: 456, edad: 2, raza: "..." }
  * ]
  */
 router.get("/", authenticate, mascotasControllers.getAllMascotas);
@@ -44,7 +44,7 @@ router.get("/", authenticate, mascotasControllers.getAllMascotas);
  * - id: ID de MongoDB del historial clínico
  *
  * Respuesta exitosa (200):
- * { _id: "...", paciente: "...", dueñoId: 123, edad: 4, raza: "..." }
+ * { _id: "...", paciente: "...", duenoId: 123, edad: 4, raza: "..." }
  */
 router.get("/:id", authenticate, mascotasControllers.getMascotasById);
 
@@ -60,7 +60,7 @@ router.get("/:id", authenticate, mascotasControllers.getMascotasById);
  * Body esperado:
  * {
  *   "paciente": "Firulais",
- *   "dueñoId": 123,
+ *   "duenoId": 123,
  *   "edad": 4,
  *   "raza": "Labrador",
  *   "peso": 22.5,

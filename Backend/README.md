@@ -389,7 +389,7 @@ curl -X POST http://localhost:3000/api/historiaClinica/ \
   -H "Authorization: Bearer <TOKEN>" \
   -d '{
     "paciente": "Firulais",
-    "dueñoId": 123,
+    "duenoId": 123,
     "edad": 4,
     "raza": "Labrador",
     "peso": 22.5,
