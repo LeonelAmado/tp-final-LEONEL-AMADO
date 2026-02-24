@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { apiRequest } from "../lib/api";
 
 export default function Login() {
@@ -15,22 +16,30 @@ export default function Login() {
     setLoading(true);
 
     try {
+     
       const data = await apiRequest("/auth/login", {
         method: "POST",
-         body: JSON.stringify({ email, password }),
+        
+        body: JSON.stringify({ email, password }),
       });
-      
-      if (data.token) {  localStorage.setItem("token", data.token);
+     
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
         navigate("/");
-            }
-    } catch (err) { setError(err.message || "No se pudo iniciar sesión");
+      
+      }
+    } catch (err) {
+    
+      setError(err.message || "No se pudo iniciar sesión");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-        <main className="auth-shell">
+    
+    <main className="auth-shell">
       <section className="auth-aside">
         <div>
           <h2>VetCare</h2>

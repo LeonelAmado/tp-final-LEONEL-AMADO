@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../lib/api";
 
 export default function Register() {
-    const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     nombre: "",
     apellido: "",
+    telefono: "",
+    direccion: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -26,21 +29,26 @@ export default function Register() {
     setLoading(true);
 
     try {
-            await apiRequest("/auth/register", {
-              method: "POST",
-                    body: JSON.stringify(formData),
-            });
-           setSuccess("Cuenta creada correctamente. Ahora inicia sesión.");
+
+      await apiRequest("/auth/register", {
+        method: "POST",
+        
+        body: JSON.stringify(formData),
+      });
+      
+      setSuccess("Cuenta creada correctamente. Ahora inicia sesión.");
       setTimeout(() => navigate("/login"), 1000);
     } catch (err) {
-           setError(err.message || "No se pudo crear la cuenta");
+   
+      setError(err.message || "No se pudo crear la cuenta");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-        <main className="auth-shell">
+    
+    <main className="auth-shell">
       <section className="auth-aside">
         <div>
           <h2>VetCare</h2>
@@ -54,8 +62,10 @@ export default function Register() {
 
         <form onSubmit={handleSubmit} className="stack-form">
           <input name="username" placeholder="Username" value={formData.username} onChange={onChange} required />
-          <input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={onChange} />
-          <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={onChange} />
+          <input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={onChange} required />
+          <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={onChange} required />
+          <input name="telefono" placeholder="Teléfono (opcional)" value={formData.telefono} onChange={onChange} />
+          <input name="direccion" placeholder="Dirección (opcional)" value={formData.direccion} onChange={onChange} />
           <input type="email" name="email" placeholder="Email" value={formData.email} onChange={onChange} required />
           <input type="password" name="password" placeholder="Contraseña" value={formData.password} onChange={onChange} required />
 

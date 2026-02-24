@@ -5,7 +5,7 @@ export default function Usuarios() {
     const user = decodeJwtPayload(token);
 
   return (
-    <main className="page">
+  <main className="page">
       <h1>Mi perfil</h1>
 
       <section className="list-card profile-card">

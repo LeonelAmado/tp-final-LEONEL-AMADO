@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 export default function Home() {
   
   const token = localStorage.getItem("token");
@@ -8,7 +9,7 @@ export default function Home() {
       <section className="hero-card">
         <h1>Plataforma de gestión veterinaria</h1>
         <p>
-          Administra veterinarias e historiales clínicos desde una interfaz clara y
+          Administra usuarios, mascotas e historiales clínicos desde una interfaz clara y
           conectada a tu backend Node + Express.
         </p>
 
@@ -24,8 +25,8 @@ export default function Home() {
             </>
           ) : (
             <>
-              <Link to="/veterinarias" className="btn-primary">
-                Ver veterinarias
+              <Link to="/mascotas" className="btn-primary">
+                Ver mascotas
               </Link>
               <Link to="/hclinicas" className="btn-secondary">
                 Ver historiales
@@ -33,6 +34,10 @@ export default function Home() {
             </>
           )}
         </div>
+
+        <p className="muted">
+          Nota: crear/editar/eliminar mascotas e historiales requiere usuario con rol <strong>admin</strong> en el backend.
+        </p>
       </section>
     </main>
   );

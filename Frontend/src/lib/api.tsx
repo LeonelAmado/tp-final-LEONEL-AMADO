@@ -1,4 +1,6 @@
-const API_BASE_URL = "http://localhost:3000";
+const viteEnv = (import.meta as ImportMeta & { env?: Record<string, string> })
+  .env;
+const API_BASE_URL = viteEnv?.VITE_API_URL || "http://localhost:3000";
 
 export const getToken = (): string | null => localStorage.getItem("token");
 
@@ -7,7 +9,6 @@ export const apiRequest = async <TResponse = unknown,>(
   options: RequestInit = {},
 ): Promise<TResponse> => {
   const token = getToken();
-
   const headers = new Headers(options.headers);
 
   if (!headers.has("Content-Type") && options.body) {

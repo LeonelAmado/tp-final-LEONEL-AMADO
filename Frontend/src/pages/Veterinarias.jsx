@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../lib/api";
 
+
 const initialForm = { name: "", direccion: "", telefono: "", email: "" };
 
 export default function Veterinarias() {
-const [items, setItems] = useState([]);
+
+  const [items, setItems] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
-    const [error, setError] = useState("");
+
+  const [error, setError] = useState("");
+
+  
   const loadData = async () => {
     try {
       const data = await apiRequest("/api/veterinaria");
@@ -16,7 +21,9 @@ const [items, setItems] = useState([]);
       setError(err.message);
     }
   };
-    useEffect(() => {
+
+  
+  useEffect(() => {
     let cancelled = false;
 
     apiRequest("/api/veterinaria")
@@ -40,10 +47,14 @@ const [items, setItems] = useState([]);
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+
   const onSubmit = async (e) => {
     e.preventDefault();
-     setError("");
- try {
+    
+    setError("");
+
+  
+    try {
       if (editId) {
         await apiRequest(`/api/veterinaria/${editId}`, {
           method: "PUT",
@@ -65,7 +76,8 @@ const [items, setItems] = useState([]);
   };
 
   return (
-     <main className="page">
+    
+    <main className="page">
       <h1>Veterinarias</h1>
       <form className="grid-form" onSubmit={onSubmit}>
         <input name="name" placeholder="Nombre" value={form.name} onChange={onChange} required />
@@ -77,7 +89,8 @@ const [items, setItems] = useState([]);
           {editId ? "Guardar cambios" : "Crear veterinaria"}
         </button>
       </form>
-    
+     
+
       {error && <p className="error">{error}</p>}
 
       <div className="list-grid">
@@ -104,6 +117,7 @@ const [items, setItems] = useState([]);
             </button>
           </article>
         ))}
+     
       </div>
     </main>
   );

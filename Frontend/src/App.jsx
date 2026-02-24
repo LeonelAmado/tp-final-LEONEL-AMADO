@@ -20,9 +20,31 @@ function AppLayout() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/hclinicas" element={<PrivateRoute><HClinicas /></PrivateRoute>} />
-        <Route path="/veterinarias" element={<PrivateRoute><Veterinarias /></PrivateRoute>} />
-     <Route
+      <Route
+          path="/mascotas"
+          element={
+            <PrivateRoute>
+              <Mascotas />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/hclinicas"
+          element={
+            <PrivateRoute>
+              <HClinicas />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/veterinarias"
+          element={
+            <PrivateRoute>
+              <Veterinarias />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/usuarios"
           element={
             <PrivateRoute>
