@@ -1,124 +1,99 @@
 import { useEffect, useState } from "react";
+import { apiRequest } from "../lib/api";
+const initialForm = {
+  paciente: "",
+  duenoId: "",
+  edad: "",
+  raza: "",
+  peso: "",
+  motivoConsulta: "",
+  diagnostico: "",
+  tratamiento: "",
+  fecha: "",
+};
+export default function HClinicas() {  const [items, setItems] = useState([]);
+  const [form, setForm] = useState(initialForm);
+  const [error, setError] = useState("");
+    const loadData = async () => {
+    try {
+      const data = await apiRequest("/api/historiaClinica");
+      setItems(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+   useEffect(() => {
+    let cancelled = false;
 
-const API = "http://localhost:3000/hclinicas";
+    apiRequest("/api/historiaClinica")
+      .then((data) => {
+        if (!cancelled) {
+          setItems(Array.isArray(data) ? data : []);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      });
 
-export default function HClinicas() {
-  const [clinicas, setClinicas] = useState([]);
-  const [nombre, setNombre] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [editNombre, setEditNombre] = useState("");
-  const token = localStorage.getItem("token");
+    return () => {
+      cancelled = true;
+    };
+   }, []);
+    const onChange = (e) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  useEffect(() => {
-    fetch(API, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => setClinicas(data));
-  }, [token]);
-
-  const handleAdd = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(API, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ nombre })
-    });
-    if (res.ok) {
-      setNombre("");
-      fetch(API, { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => res.json())
-        .then(data => setClinicas(data));
+      setError("");
+    try {
+      await apiRequest("/api/historiaClinica", {
+        method: "POST",
+        body: JSON.stringify({
+          ...form,
+          duenoId: Number(form.duenoId),
+          edad: Number(form.edad),
+          peso: Number(form.peso),
+        }),
+      });
+      setForm(initialForm);
+      await loadData();
+    } catch (err) {
+      setError(err.message);
     }
   };
 
-  const handleEdit = id => {
-    setEditId(id);
-    const clinica = clinicas.find(c => c._id === id);
-    setEditNombre(clinica.nombre);
-  };
+  return (  <main className="page">
+      <h1>Historiales clínicos</h1>
 
-  const handleUpdate = async e => {
-    e.preventDefault();
-    const res = await fetch(`${API}/${editId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ nombre: editNombre })
-    });
-    if (res.ok) {
-      setEditId(null);
-      setEditNombre("");
-      fetch(API, { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => res.json())
-        .then(data => setClinicas(data));
-    }
-  };
+      <form className="grid-form" onSubmit={onSubmit}>
+        <input name="paciente" placeholder="Paciente" value={form.paciente} onChange={onChange} required />
+        <input name="duenoId" placeholder="ID dueño" value={form.duenoId} onChange={onChange} required />
+        <input name="edad" placeholder="Edad" value={form.edad} onChange={onChange} required />
+        <input name="raza" placeholder="Raza" value={form.raza} onChange={onChange} required />
+        <input name="peso" placeholder="Peso" value={form.peso} onChange={onChange} required />
+        <input name="motivoConsulta" placeholder="Motivo" value={form.motivoConsulta} onChange={onChange} required />
+        <input name="diagnostico" placeholder="Diagnóstico" value={form.diagnostico} onChange={onChange} required />
+        <input name="tratamiento" placeholder="Tratamiento" value={form.tratamiento} onChange={onChange} required />
+        <input type="date" name="fecha" value={form.fecha} onChange={onChange} required />
 
-  const handleDelete = async id => {
-    const res = await fetch(`${API}/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (res.ok) {
-      setClinicas(clinicas.filter(c => c._id !== id));
-    }
-  };
-
-  return (
-    <div style={{ maxWidth: 600, margin: "2rem auto" }}>
-      <h2>Gestión de HClinicas</h2>
-      <form onSubmit={handleAdd} style={{ marginBottom: "2rem" }}>
-        <input
-          type="text"
-          placeholder="Nombre de clínica"
-          value={nombre}
-          onChange={e => setNombre(e.target.value)}
-          required
-          style={{ width: "70%", padding: "0.5rem" }}
-        />
-        <button type="submit" style={{ padding: "0.5rem", background: "#1976d2", color: "#fff", border: "none", fontWeight: "bold", marginLeft: "1rem" }}>
-          Agregar
+        <button className="btn-primary" type="submit">
+          Crear historial
         </button>
       </form>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {clinicas.map(c => (
-          <li key={c._id} style={{ marginBottom: "1rem", background: "#fff", padding: "1rem", borderRadius: "8px", boxShadow: "0 2px 8px #eee" }}>
-            {editId === c._id ? (
-              <form onSubmit={handleUpdate} style={{ display: "inline" }}>
-                <input
-                  type="text"
-                  value={editNombre}
-                  onChange={e => setEditNombre(e.target.value)}
-                  required
-                  style={{ padding: "0.5rem" }}
-                />
-                <button type="submit" style={{ marginLeft: "1rem", padding: "0.5rem", background: "#1976d2", color: "#fff", border: "none", fontWeight: "bold" }}>
-                  Guardar
-                </button>
-                <button type="button" onClick={() => setEditId(null)} style={{ marginLeft: "0.5rem", padding: "0.5rem", background: "#ccc", border: "none" }}>
-                  Cancelar
-                </button>
-              </form>
-            ) : (
-              <>
-                <span style={{ fontWeight: "bold" }}>{c.nombre}</span>
-                <button onClick={() => handleEdit(c._id)} style={{ marginLeft: "1rem", padding: "0.5rem", background: "#ffd600", border: "none", fontWeight: "bold" }}>
-                  Editar
-                </button>
-                <button onClick={() => handleDelete(c._id)} style={{ marginLeft: "0.5rem", padding: "0.5rem", background: "#d32f2f", color: "#fff", border: "none", fontWeight: "bold" }}>
-                  Eliminar
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+      {error && <p className="error">{error}</p>}
+
+      <div className="list-grid">
+        {items.map((h) => (
+          <article key={h._id} className="list-card">
+            <h3>{h.paciente}</h3>
+            <p>Raza: {h.raza}</p>
+            <p>Edad: {h.edad}</p>
+            <p>Peso: {h.peso} kg</p>
+            <p>Diagnóstico: {h.diagnostico}</p>
+          </article>
+        ))};
     </div>
+    </main>
   );
 }
