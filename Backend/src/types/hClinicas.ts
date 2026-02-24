@@ -10,16 +10,15 @@
  * - telefono: Número de teléfono (opcional)
  * - email: Correo electrónico de contacto (opcional)
  */
-import { IHClinica } from "../models/hClinicas.model";
-import { IMascotas } from "../models/mascotas.model";
 
-export interface CreateVeterinariaDTO {
-  name: string;
-  direccion?: string; // El ? indica que es opcional
-  telefono?: string;
-  email?: string;
-  hClinica?: IHClinica;
-  mascotas?: IMascotas;
+export interface CreateHClinicasDTO {
+  mascotaId: number;
+  peso?: string;
+  motivoConsulta: string;
+  diagnostico?: string;
+  notas?: string;
+  tratamiento?: string;
+  fecha: Date;
 }
 
 /**
@@ -31,7 +30,7 @@ export interface CreateVeterinariaDTO {
  *
  * Ejemplo: { telefono: "555-1234" } actualiza solo el teléfono
  */
-export interface UpdateVeterinariaDTO extends Partial<CreateVeterinariaDTO> {}
+export interface UpdateHClinicaDTO extends Partial<CreateHClinicasDTO> {}
 
 /**
  * INTERFAZ: VeterinariaResponseDTO
@@ -40,14 +39,15 @@ export interface UpdateVeterinariaDTO extends Partial<CreateVeterinariaDTO> {}
  * Incluye el ID y los timestamps de creación y actualización
  * Esto es lo que ve el cliente en las respuestas GET/POST/PUT
  */
-export interface VeterinariaResponseDTO {
-  id: string;
-  name: string;
-  direccion?: string;
-  telefono?: string;
-  email?: string;
-  hClinica?: IHClinica;
-  mascotas?: IMascotas;
-  createdAt: Date; // Fecha de creación automática
-  updatedAt: Date; // Corregido: updatedAt en lugar de updateAt
+export interface HClinicaResponseDTO {
+  id: String;
+  mascotaId: number;
+  peso?: string;
+  motivoConsulta: string;
+  diagnostico?: string;
+  tratamiento?: string;
+  notas?: string;
+  fecha: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as hClinicasService from "../services/hClinicas.service";
-import { IHClinica } from "../models/hClinicas.model";
+import * as mascotasService from "../services/mascotas.service";
+import { IMascotas } from "../models/mascotas.model";
 
 /**
  * CONTROLADOR: createHClinica
@@ -27,16 +27,17 @@ import { IHClinica } from "../models/hClinicas.model";
  * - 400: Datos inválidos
  * - 500: Error interno
  */
-export const createHClinica = async (req: Request, res: Response) => {
+export const createMascotas = async (req: Request, res: Response) => {
   try {
-    const hClinicaData: IHClinica = req.body;
+    const mascotasData: IMascotas = req.body;
 
     // Llamar servicio para crear historial clínico
-    const hClinica = await hClinicasService.createHClinica(hClinicaData);
+    const mascotas = await mascotasService.createMascotas(mascotasData);
 
     // Retornar 201 Created con el historial creado
-    return res.status(201).json(hClinica);
+    return res.status(201).json(mascotas);
   } catch (error: any) {
+    console.error(error); // 👈 importante
     return res.status(500).json({ error: error.message });
   }
 };
@@ -50,21 +51,19 @@ export const createHClinica = async (req: Request, res: Response) => {
  *
  * Respuesta exitosa (200):
  * [
- *   { _id: "...", paciente: "...","duenoId: 123, edad: 4, raza: "..." },
- *   { _id: "...", paciente: "...","duenoId: 456, edad: 2, raza: "..." }
+ *   { _id: "...", paciente: "...", duenoId: 123, edad: 4, raza: "..." },
+ *   { _id: "...", paciente: "...", duenoId: 456, edad: 2, raza: "..." }
  * ]
  */
-export const getAllHClinicas = async (req: Request, res: Response) => {
+export const getAllMascotas = async (req: Request, res: Response) => {
   try {
     // Llamar servicio para obtener todos los historiales clínicos
-    const hClinicas = await hClinicasService.getAllHClinicas();
+    const mascotas = await mascotasService.getAllMascotas();
 
     // Retornar 200 OK con array de historiales clínicos
-    return res.status(200).json(hClinicas);
+    return res.status(200).json(mascotas);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Error al obtener historiales clínicos" });
+    return res.status(500).json({ error: "Error al obtener mascotas" });
   }
 };
 
@@ -84,24 +83,22 @@ export const getAllHClinicas = async (req: Request, res: Response) => {
  * - 404: Historial clínico no encontrado
  * - 500: Error interno
  */
-export const getHClinicaById = async (req: Request, res: Response) => {
+export const getMascotasById = async (req: Request, res: Response) => {
   const id = req.params.id as string;
 
   try {
     // Llamar servicio para obtener historial clínico por ID
-    const hClinica = await hClinicasService.getHClinicaById(id);
+    const mascotas = await mascotasService.getMascotasById(id);
 
     // Si no existe, retornar 404 Not Found
-    if (!hClinica) {
-      return res.status(404).json({ error: "Historial clínico no encontrado" });
+    if (!mascotas) {
+      return res.status(404).json({ error: "Mascota no encontrada" });
     }
 
     // Retornar 200 OK con el historial clínico
-    return res.status(200).json(hClinica);
+    return res.status(200).json(mascotas);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: `Error al obtener el historial clínico ${id}` });
+    return res.status(500).json({ error: `Error al obtener mascota ${id}` });
   }
 };
 
@@ -126,27 +123,25 @@ export const getHClinicaById = async (req: Request, res: Response) => {
  * - 400: ID inválido o error al actualizar
  * - 404: Historial clínico no encontrado
  */
-export const updateHClinica = async (req: Request, res: Response) => {
+export const updateMascotas = async (req: Request, res: Response) => {
   const id = req.params.id as string;
 
   try {
     // Extraer datos a actualizar del body
-    const hClinicaData: Partial<IHClinica> = req.body;
+    const mascotasData: Partial<IMascotas> = req.body;
 
     // Llamar servicio para actualizar historial clínico
-    const hClinica = await hClinicasService.updateHClinica(id, hClinicaData);
+    const mascotas = await mascotasService.updateMascotas(id, mascotasData);
 
     // Si no existe, retornar 404 Not Found
-    if (!hClinica) {
-      return res.status(404).json({ error: "Historial clínico no encontrado" });
+    if (!mascotas) {
+      return res.status(404).json({ error: "Mascota no encontrada" });
     }
 
     // Retornar 200 OK con historial clínico actualizado
-    return res.status(200).json(hClinica);
+    return res.status(200).json(mascotas);
   } catch (error) {
-    return res
-      .status(400)
-      .json({ error: `Error al actualizar el historial clínico ${id}` });
+    return res.status(400).json({ error: `Error al actualizar mascota ${id}` });
   }
 };
 
@@ -166,23 +161,21 @@ export const updateHClinica = async (req: Request, res: Response) => {
  * - 404: Historial clínico no encontrado
  * - 500: Error interno
  */
-export const deleteHClinica = async (req: Request, res: Response) => {
+export const deleteMascotas = async (req: Request, res: Response) => {
   const id = req.params.id as string;
 
   try {
     // Llamar servicio para eliminar historial clínico
-    const hClinica = await hClinicasService.deleteHClinica(id);
+    const mascota = await mascotasService.deleteMascotas(id);
 
     // Si no existe, retornar 404 Not Found
-    if (!hClinica) {
-      return res.status(404).json({ error: "Historial clínico no encontrado" });
+    if (!mascota) {
+      return res.status(404).json({ error: "Mascota no encontrada" });
     }
 
     // Retornar 200 OK con mensaje de éxito
-    return res.status(200).json({ message: "Historial clínico eliminado!" });
+    return res.status(200).json({ message: "Mascota eliminada!" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: `Error al eliminar el historial clínico ${id}` });
+    return res.status(500).json({ error: `Error al eliminar mascota ${id}` });
   }
 };

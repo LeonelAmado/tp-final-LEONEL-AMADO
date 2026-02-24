@@ -1,11 +1,11 @@
 import { Router } from "express";
 
 // Importar todos los controladores de historiales clínicos como módulo
-import * as hClinicasController from "../controllers/hClinicas.controller";
+import * as mascotasControllers from "../controllers/mascotas.controller";
 import {
-  createHClinicasValidator,
-  updateHClinicasValidator,
-} from "../validators/hClinicas.validator";
+  createMascotasValidator,
+  updateMascotasValidator,
+} from "../validators/mascotas.validator";
 // Importar middlewares de autenticación y autorización
 import { authenticate, authorize } from "../middlewares/auth.middleware";
 import validateDto from "../middlewares/dto.middleware";
@@ -21,7 +21,7 @@ import validateDto from "../middlewares/dto.middleware";
 const router: Router = Router();
 
 /**
- * RUTA: GET /api/historiaClinica/
+ * RUTA: GET /api/mascotas/
  *
  * Obtiene todos los historiales clínicos
  * No requiere autenticación (endpoint público)
@@ -32,10 +32,10 @@ const router: Router = Router();
  *   { _id: "...", paciente: "...", duenoId: 456, edad: 2, raza: "..." }
  * ]
  */
-router.get("/", authenticate, hClinicasController.getAllHClinicas);
+router.get("/", authenticate, mascotasControllers.getAllMascotas);
 
 /**
- * RUTA: GET /api/historiaClinica/:id
+ * RUTA: GET /api/mascotas/:id
  *
  * Obtiene un historial clínico específico por su ID
  * No requiere autenticación (endpoint público)
@@ -46,10 +46,10 @@ router.get("/", authenticate, hClinicasController.getAllHClinicas);
  * Respuesta exitosa (200):
  * { _id: "...", paciente: "...", duenoId: 123, edad: 4, raza: "..." }
  */
-router.get("/:id", authenticate, hClinicasController.getHClinicaById);
+router.get("/:id", authenticate, mascotasControllers.getMascotasById);
 
 /**
- * RUTA: POST /api/historiaClinica/
+ * RUTA: POST /api/mascotas/
  *
  * Crea un nuevo historial clínico
  *
@@ -77,13 +77,13 @@ router.post(
   "/",
   authenticate,
   authorize(["admin"]),
-  createHClinicasValidator,
+  createMascotasValidator,
   validateDto,
-  hClinicasController.createHClinica,
+  mascotasControllers.createMascotas,
 );
 
 /**
- * RUTA: PUT /api/historiaClinica/:id
+ * RUTA: PUT /api/mascotas/:id
  *
  * Actualiza un historial clínico existente
  *
@@ -107,13 +107,13 @@ router.put(
   "/:id",
   authenticate,
   authorize(["admin"]),
-  updateHClinicasValidator,
+  updateMascotasValidator,
   validateDto,
-  hClinicasController.updateHClinica,
+  mascotasControllers.updateMascotas,
 );
 
 /**
- * RUTA: DELETE /api/historiaClinica/:id
+ * RUTA: DELETE /api/mascotas/:id
  *
  * Elimina un historial clínico de la base de datos
  *
@@ -131,7 +131,7 @@ router.delete(
   "/:id",
   authenticate,
   authorize(["admin"]),
-  hClinicasController.deleteHClinica,
+  mascotasControllers.deleteMascotas,
 );
 
 // Exportar router para ser usado en app.use("/api/producto", router)

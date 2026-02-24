@@ -232,7 +232,7 @@
       "params": [],
       "body": {
         "type": "json",
-        "raw": "{\n  \"paciente\": \"Firulais\",\n  \"dueñoId\": 123,\n  \"edad\": 4,\n  \"raza\": \"Labrador\",\n  \"peso\": 22.5,\n  \"motivoConsulta\": \"Control anual\",\n  \"diagnostico\": \"Saludable\",\n  \"tratamiento\": \"Ninguno\",\n  \"fecha\": \"2024-01-15T10:00:00.000Z\"\n}",
+        "raw": "{\n  \"paciente\": \"Firulais\",\n  \"duenoId\": 123,\n  \"edad\": 4,\n  \"raza\": \"Labrador\",\n  \"peso\": 22.5,\n  \"motivoConsulta\": \"Control anual\",\n  \"diagnostico\": \"Saludable\",\n  \"tratamiento\": \"Ninguno\",\n  \"fecha\": \"2024-01-15T10:00:00.000Z\"\n}",
         "form": []
       },
       "tests": [],

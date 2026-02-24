@@ -1,7 +1,25 @@
 // Importar modelo de producto
 // Importar modelo de historial clínico
-import { IHClinica, HClinica } from "../models/hClinicas.model";
+import { IMascotas, Mascotas, mascotasSchema } from "../models/mascotas.model";
+import {
+  CreateMascotasDTO,
+  MascotasResponseDTO,
+  UpdateMascotasDTO,
+} from "../types/mascotas";
 
+const mapToResponseDTO = (mascota: IMascotas): MascotasResponseDTO => {
+  return {
+    id: mascota._id.toString(),
+    name: mascota.name,
+    duenoId: mascota.duenoId,
+    edad: mascota.edad,
+    especie: mascota.especie,
+    raza: mascota.raza,
+    fecha: mascota.fecha,
+    createdAt: mascota.createdAt,
+    updatedAt: mascota.updatedAt,
+  };
+};
 /**
  * SERVICIO: createHClinica
  *
@@ -18,11 +36,17 @@ import { IHClinica, HClinica } from "../models/hClinicas.model";
  *   raza: "Labrador"
  * });
  */
-export const createHClinica = async (data: IHClinica) => {
-  const hClinica = new HClinica(data);
-  return await hClinica.save();
+// export const createMascotas = async (data: IMascotas) => {
+//   const mascotas = new Mascotas(data);
+//   return await mascotas.save();
+// };
+export const createMascotas = async (
+  data: CreateMascotasDTO,
+): Promise<MascotasResponseDTO> => {
+  const newMascota = new Mascotas(data);
+  const savedMascota = await newMascota.save();
+  return mapToResponseDTO(savedMascota);
 };
-
 /**
  * SERVICIO: getAllHClinicas
  *
@@ -33,8 +57,8 @@ export const createHClinica = async (data: IHClinica) => {
  * Uso:
  * const historiales = await getAllHClinicas();
  */
-export const getAllHClinicas = async () => {
-  return await HClinica.find();
+export const getAllMascotas = async () => {
+  return await Mascotas.find();
 };
 
 /**
@@ -48,8 +72,8 @@ export const getAllHClinicas = async () => {
  * Uso:
  * const hClinica = await getHClinicaById("507f1f77bcf86cd799439011");
  */
-export const getHClinicaById = async (id: string) => {
-  return await HClinica.findById(id);
+export const getMascotasById = async (id: string) => {
+  return await Mascotas.findById(id);
 };
 
 /**
@@ -64,13 +88,23 @@ export const getHClinicaById = async (id: string) => {
  * Uso:
  * const updated = await updateHClinica("507f...", { peso: 24 });
  */
-export const updateHClinica = async (id: string, data: Partial<IHClinica>) => {
-  return await HClinica.findByIdAndUpdate(id, data, {
+// export const updateMascotas = async (id: string, data: Partial<IMascotas>) => {
+//   return await Mascotas.findByIdAndUpdate(id, data, {
+//     new: true,
+//     runValidators: true,
+//   });
+// };
+export const updateMascotas = async (
+  id: string,
+  data: UpdateMascotasDTO,
+): Promise<MascotasResponseDTO | null> => {
+  const mascotas = await Mascotas.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
   });
-};
 
+  return mascotas ? mapToResponseDTO(mascotas) : null;
+};
 /**
  * SERVICIO: deleteHClinica
  *
@@ -82,6 +116,6 @@ export const updateHClinica = async (id: string, data: Partial<IHClinica>) => {
  * Uso:
  * const deleted = await deleteHClinica("507f1f77bcf86cd799439011");
  */
-export const deleteHClinica = async (id: string) => {
-  return await HClinica.findByIdAndDelete(id);
+export const deleteMascotas = async (id: string) => {
+  return await Mascotas.findByIdAndDelete(id);
 };
