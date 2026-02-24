@@ -1,6 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import "../App.css";
-
 export default function Navbar() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -10,17 +8,24 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  return (
-    <nav className="navbar">
-      <ul>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/hclinicas">HClinicas</Link></li>
-        <li><Link to="/veterinarias">Veterinarias</Link></li>
-        <li><Link to="/usuarios">Usuarios</Link></li>
-        {!token && <li><Link to="/login">Login</Link></li>}
-        {!token && <li><Link to="/register">Registro</Link></li>}
-        {token && <li><button onClick={handleLogout} style={{ background: "#d32f2f", color: "#fff", border: "none", fontWeight: "bold", padding: "0.5rem 1rem", cursor: "pointer" }}>Cerrar sesión</button></li>}
-      </ul>
-    </nav>
+  return ( <header className="topbar">
+      <Link to="/" className="brand">
+        🐾 VetCare
+      </Link>
+
+      <nav className="topbar-nav">
+        <Link to="/">Inicio</Link>
+        {token && <Link to="/veterinarias">Veterinarias</Link>}
+        {token && <Link to="/hclinicas">Historiales</Link>}
+        {token && <Link to="/usuarios">Perfil</Link>}
+        {!token && <Link to="/login">Ingresar</Link>}
+        {!token && <Link to="/register">Registrarse</Link>}
+        {token && (
+          <button type="button" className="btn-ghost" onClick={handleLogout}>
+            Cerrar sesión
+          </button>
+        )}
+      </nav>
+    </header>
   );
 }
