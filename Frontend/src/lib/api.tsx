@@ -26,9 +26,21 @@ export const apiRequest = async <TResponse = unknown,>(
   const payload = await response.json().catch(() => ({}));
 
   if (!response.ok) {
+    const payloadWithErrors = payload as {
+      error?: string;
+      message?: string;
+      errors?: Array<{ msg?: string }>;
+    };
+
+    const validationMessage = payloadWithErrors.errors
+      ?.map((item) => item.msg)
+      .filter(Boolean)
+      .join(". ");
+
     const errorMessage =
-      (payload as { error?: string; message?: string }).error ||
-      (payload as { error?: string; message?: string }).message ||
+      validationMessage ||
+      payloadWithErrors.error ||
+      payloadWithErrors.message ||
       "Ocurrió un error inesperado";
 
     throw new Error(errorMessage);
