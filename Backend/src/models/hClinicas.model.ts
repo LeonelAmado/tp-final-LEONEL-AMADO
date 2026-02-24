@@ -38,7 +38,7 @@ export const hClinicaSchema = new Schema<IHClinica>(
     // Campo nombre del paciente
     mascotaId: {
       type: Schema.Types.ObjectId,
-      ref: "Mascota",
+      ref: "Mascotas",
       required: true,
     },
 

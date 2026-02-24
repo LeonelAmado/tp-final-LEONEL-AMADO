@@ -12,6 +12,21 @@ const initialForm = {
   fecha: "",
 };
 
+const getMascotaName = (mascota) => {
+  if (!mascota) return "-";
+  if (typeof mascota === "string") return mascota;
+  return mascota.name || mascota.id || mascota._id || "-";
+};
+
+const getDuenoName = (mascota) => {
+  const owner = mascota?.duenoId;
+
+  if (!owner) return "-";
+  if (typeof owner === "string") return owner;
+
+  const fullName = `${owner.nombre || ""} ${owner.apellido || ""}`.trim();
+  return fullName || owner.username || owner.id || owner._id || "-";
+};
 
 export default function HClinicas() {
   const [items, setItems] = useState([]);
@@ -50,7 +65,7 @@ export default function HClinicas() {
       cancelled = true;
     };
 
-    }, []);
+   }, []);
 
   const onChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -63,7 +78,9 @@ export default function HClinicas() {
      setError("");
 
     if (!isValidMongoId(form.mascotaId)) {
-      setError("El ID de mascota debe ser un ObjectId válido (24 caracteres hexadecimales)");
+     setError(
+        "El ID de mascota debe ser un ObjectId válido (24 caracteres hexadecimales)",
+      );
       return;
     }
 
@@ -132,7 +149,13 @@ export default function HClinicas() {
           value={form.notas}
           onChange={onChange}
         />
-        <input type="date" name="fecha" value={form.fecha} onChange={onChange} required />
+           <input
+          type="date"
+          name="fecha"
+          value={form.fecha}
+          onChange={onChange}
+          required
+        />
 
         <button className="btn-primary" type="submit">
           Crear historial
@@ -145,7 +168,8 @@ export default function HClinicas() {
         {items.map((h) => (
           <article key={h._id} className="list-card">
             <h3>Historia clínica</h3>
-            <p>Mascota ID: {h.mascotaId}</p>
+           <p>Mascota: {getMascotaName(h.mascotaId)}</p>
+            <p>Dueño: {getDuenoName(h.mascotaId)}</p>
             <p>Peso: {h.peso} kg</p>
             <p>Motivo: {h.motivoConsulta}</p>
             <p>Diagnóstico: {h.diagnostico}</p>

@@ -2,11 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { apiRequest } from "../lib/api";
 import { decodeJwtPayload } from "../lib/auth";
 
+type Dueno = {
+  _id?: string;
+  id?: string;
+  nombre?: string;
+  apellido?: string;
+  username?: string;
+};
+
 type Mascota = {
   _id?: string;
   id?: string;
   name: string;
-  duenoId: string;
+  duenoId?: string | Dueno | null;
   edad: number;
   especie: string;
   raza: string;
@@ -59,6 +67,19 @@ const getErrorMessage = (error: unknown): string => {
 const getSpeciesVisual = (species = ""): SpeciesVisual => {
   const normalized = species.toLowerCase();
   return speciesStyles[normalized] ?? speciesStyles.default;
+};
+
+const getDuenoLabel = (dueno?: string | Dueno | null): string => {
+  if (!dueno) {
+    return "Sin dueño";
+  }
+
+  if (typeof dueno === "string") {
+    return dueno;
+  }
+
+  const fullName = `${dueno.nombre ?? ""} ${dueno.apellido ?? ""}`.trim();
+  return fullName || dueno.username || dueno.id || dueno._id || "Sin dueño";
 };
 
 export default function Mascotas() {
@@ -240,7 +261,7 @@ export default function Mascotas() {
                 </div>
               </div>
               <p>
-                <strong>Dueño:</strong> {pet.duenoId}
+                <strong>Dueño:</strong> {getDuenoLabel(pet.duenoId)}
               </p>
               <p>
                 <strong>Edad:</strong> {pet.edad} años

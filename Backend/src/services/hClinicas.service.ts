@@ -34,7 +34,10 @@ export const createHClinica = async (data: IHClinica) => {
  * const historiales = await getAllHClinicas();
  */
 export const getAllHClinicas = async () => {
-  return await HClinica.find();
+  return await HClinica.find().populate({
+    path: "mascotaId",
+    populate: { path: "duenoId", select: "nombre apellido username" },
+  });
 };
 
 /**
@@ -49,7 +52,10 @@ export const getAllHClinicas = async () => {
  * const hClinica = await getHClinicaById("507f1f77bcf86cd799439011");
  */
 export const getHClinicaById = async (id: string) => {
-  return await HClinica.findById(id);
+  return await HClinica.findById(id).populate({
+    path: "mascotaId",
+    populate: { path: "duenoId", select: "nombre apellido username" },
+  });
 };
 
 /**
